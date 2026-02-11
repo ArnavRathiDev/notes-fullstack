@@ -15,7 +15,8 @@ app = FastAPI()
 
 origins = [
     "http://localhost:5173",
-    "https://notes-fullstack-one.vercel.app/",
+    "https://notes-fullstack-one.vercel.app",
+    "https://notes-fullstack-qxjo.onrender.com",
 ]
 
 

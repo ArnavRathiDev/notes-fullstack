@@ -11,10 +11,13 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+
+
 origins = [
     "http://localhost:5173",
-    "https://your-frontend-url.vercel.app",  # we'll update this later
+    "https://notes-fullstack-one.vercel.app/",
 ]
+
 
 app.add_middleware(
     CORSMiddleware,

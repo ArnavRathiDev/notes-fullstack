@@ -132,97 +132,79 @@ export default function App() {
   }
 
   return (
-    <div style={{ maxWidth: 720, margin: "48px auto", padding: 16, fontFamily: "system-ui" }}>
-      <header style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12 }}>
+    <div className="app-container">
+      <header className="header">
         <div>
-          <h1 style={{ margin: 0 }}>Notes</h1>
-          <p style={{ margin: "6px 0 0", opacity: 0.75 }}>
+          <h1>Notes</h1>
+          <p className="header-subtitle">
             A tiny full-stack app (React + TypeScript + FastAPI + Postgres)
           </p>
         </div>
-        <button onClick={loadNotes} disabled={isLoading} style={{ padding: "10px 12px" }}>
+        <button onClick={loadNotes} disabled={isLoading}>
           {isLoading ? "Refreshing…" : "Refresh"}
         </button>
       </header>
 
-      <section style={{ marginTop: 18 }}>
-        <form onSubmit={addNote} style={{ display: "flex", gap: 10 }}>
+      <section className="form-section">
+        <form onSubmit={addNote} className="note-form">
           <input
+            className="note-input"
             value={newText}
             onChange={(e) => setNewText(e.target.value)}
             placeholder="Write a note…"
-            style={{ flex: 1, padding: 12, borderRadius: 10, border: "1px solid #ddd" }}
           />
-          <button disabled={!canAdd} style={{ padding: "12px 14px", borderRadius: 10 }}>
+          <button disabled={!canAdd}>
             {isAdding ? "Adding…" : "Add"}
           </button>
         </form>
 
         {err && (
-          <div style={{ marginTop: 12, padding: 12, borderRadius: 10, border: "1px solid #f5c2c7" }}>
-            <strong style={{ display: "block", marginBottom: 6 }}>Something went wrong</strong>
-            <div style={{ whiteSpace: "pre-wrap" }}>{err}</div>
+          <div className="error-banner">
+            <strong>Something went wrong</strong>
+            <div>{err}</div>
           </div>
         )}
       </section>
 
-      <section style={{ marginTop: 18 }}>
+      <section className="notes-section">
         {isLoading ? (
-          <p>Loading…</p>
+          <p className="empty-state">Loading…</p>
         ) : notes.length === 0 ? (
-          <p>No notes yet.</p>
+          <p className="empty-state">No notes yet.</p>
         ) : (
-          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 10 }}>
+          <ul className="notes-list">
             {notes.map((n) => {
               const isEditing = editingId === n.id;
               const isDeleting = deletingId === n.id;
 
               return (
-                <li
-                  key={n.id}
-                  style={{
-                    border: "1px solid #e6e6e6",
-                    borderRadius: 14,
-                    padding: 14,
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: 12,
-                    alignItems: "flex-start",
-                  }}
-                >
-                  <div style={{ flex: 1 }}>
+                <li key={n.id} className="glass-card note-card">
+                  <div className="note-content">
                     {isEditing ? (
                       <>
                         <textarea
+                          className="edit-textarea"
                           value={editingText}
                           onChange={(e) => setEditingText(e.target.value)}
                           rows={3}
-                          style={{
-                            width: "100%",
-                            padding: 12,
-                            borderRadius: 10,
-                            border: "1px solid #ddd",
-                            resize: "vertical",
-                          }}
                         />
-                        <div style={{ marginTop: 10, display: "flex", gap: 8 }}>
+                        <div className="edit-actions">
                           <button
                             onClick={saveEdit}
                             disabled={savingEdit || editingText.trim().length === 0}
-                            style={{ padding: "10px 12px", borderRadius: 10 }}
                             type="button"
                           >
                             {savingEdit ? "Saving…" : "Save"}
                           </button>
-                          <button onClick={cancelEdit} type="button" style={{ padding: "10px 12px", borderRadius: 10 }}>
+                          <button onClick={cancelEdit} type="button">
                             Cancel
                           </button>
                         </div>
                       </>
                     ) : (
                       <>
-                        <div style={{ whiteSpace: "pre-wrap", lineHeight: 1.4 }}>{n.text}</div>
-                        <div style={{ marginTop: 6, fontSize: 12, opacity: 0.5 }}>
+                        <div className="note-text">{n.text}</div>
+                        <div className="note-meta">
                           Created {new Date(n.created_at).toLocaleString()}
                           {n.updated_at !== n.created_at && ` · Updated ${new Date(n.updated_at).toLocaleString()}`}
                         </div>
@@ -230,12 +212,11 @@ export default function App() {
                     )}
                   </div>
 
-                  <div style={{ display: "flex", gap: 8 }}>
+                  <div className="note-actions">
                     <button
                       onClick={() => startEdit(n)}
                       disabled={editingId !== null || isDeleting}
                       type="button"
-                      style={{ padding: "10px 12px", borderRadius: 10 }}
                     >
                       Edit
                     </button>
@@ -243,7 +224,6 @@ export default function App() {
                       onClick={() => deleteNote(n.id)}
                       disabled={isDeleting || editingId === n.id}
                       type="button"
-                      style={{ padding: "10px 12px", borderRadius: 10 }}
                     >
                       {isDeleting ? "Deleting…" : "Delete"}
                     </button>

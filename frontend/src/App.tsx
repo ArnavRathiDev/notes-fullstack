@@ -4,7 +4,7 @@ type Note = { id: number; text: string; created_at: string; updated_at: string }
 
 const API_BASE =
   import.meta.env.VITE_API_URL
-    ? `${import.meta.env.VITE_API_URL}/api`
+    ? `${import.meta.env.VITE_API_URL.replace(/\/+$/, "")}/api`
     : "/api";
 
 

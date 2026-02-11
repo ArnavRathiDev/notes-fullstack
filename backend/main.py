@@ -11,14 +11,21 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# allow React dev server to call backend
+origins = [
+    "http://localhost:5173",
+    "https://your-frontend-url.vercel.app",  # we'll update this later
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# allow React dev server to call backend
 
 def get_db():
     db = SessionLocal()

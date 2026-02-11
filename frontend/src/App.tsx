@@ -2,7 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 
 type Note = { id: number; text: string; created_at: string; updated_at: string };
 
-const API_BASE = "/api";
+const API_BASE =
+  import.meta.env.VITE_API_URL
+    ? `${import.meta.env.VITE_API_URL}/api`
+    : "/api";
+
+
 
 async function api<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
